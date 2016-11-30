@@ -12,6 +12,7 @@
 		924E551C1DEF03140063FF73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 924E551A1DEF03140063FF73 /* Main.storyboard */; };
 		924E551E1DEF03140063FF73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 924E551D1DEF03140063FF73 /* Assets.xcassets */; };
 		924E55211DEF03140063FF73 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 924E551F1DEF03140063FF73 /* LaunchScreen.storyboard */; };
+		924E552E1DEF1F810063FF73 /* ExpressionKeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924E552D1DEF1F810063FF73 /* ExpressionKeyboardViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		924E551D1DEF03140063FF73 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		924E55201DEF03140063FF73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		924E55221DEF03140063FF73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		924E552D1DEF1F810063FF73 /* ExpressionKeyboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressionKeyboardViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 		924E55151DEF03140063FF73 /* EncapsulationExpressionKeyboard */ = {
 			isa = PBXGroup;
 			children = (
+				924E55281DEF08310063FF73 /* ExpressionKeyboard */,
 				924E55161DEF03140063FF73 /* AppDelegate.swift */,
 				924E55181DEF03140063FF73 /* ViewController.swift */,
 				924E551A1DEF03140063FF73 /* Main.storyboard */,
@@ -62,6 +65,14 @@
 				924E55221DEF03140063FF73 /* Info.plist */,
 			);
 			path = EncapsulationExpressionKeyboard;
+			sourceTree = "<group>";
+		};
+		924E55281DEF08310063FF73 /* ExpressionKeyboard */ = {
+			isa = PBXGroup;
+			children = (
+				924E552D1DEF1F810063FF73 /* ExpressionKeyboardViewController.swift */,
+			);
+			path = ExpressionKeyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,6 +148,7 @@
 			files = (
 				924E55191DEF03140063FF73 /* ViewController.swift in Sources */,
 				924E55171DEF03140063FF73 /* AppDelegate.swift in Sources */,
+				924E552E1DEF1F810063FF73 /* ExpressionKeyboardViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
