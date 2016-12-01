@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     //==========================================================================================================
     // MARK: - 懒加载
     //==========================================================================================================
-    lazy var expressionKeyboardVC : ExpressionKeyboardViewController = ExpressionKeyboardViewController()
+    lazy var expressionKeyboardVC : SLExpressionKeyboardViewController = SLExpressionKeyboardViewController()
     
     
     //==========================================================================================================

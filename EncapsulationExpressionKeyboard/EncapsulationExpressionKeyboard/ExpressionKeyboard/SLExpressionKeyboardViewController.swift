@@ -1,5 +1,5 @@
 //
-//  ExpressionKeyboardViewController.swift
+//  SLExpressionKeyboardViewController.swift
 //  EncapsulationExpressionKeyboard
 //
 //  Created by Anthony on 16/11/30.
@@ -9,7 +9,7 @@
 
 import UIKit
 
-class ExpressionKeyboardViewController: UIViewController {
+class SLExpressionKeyboardViewController: UIViewController {
 
     //==========================================================================================================
     // MARK: - 懒加载
@@ -32,7 +32,7 @@ class ExpressionKeyboardViewController: UIViewController {
         for title in ["最近", "默认", "Emoji", "浪小花"]
         {
             // 1.创建标题item
-            let item = UIBarButtonItem(title: title, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ExpressionKeyboardViewController.itemClick(_:)))
+            let item = UIBarButtonItem(title: title, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(SLExpressionKeyboardViewController.itemClick(_:)))
             item.tag = index
             index += 1
             items.append(item)
