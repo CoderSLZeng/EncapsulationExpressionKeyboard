@@ -16,8 +16,9 @@ class SLExpressionKeyboardViewController: UIViewController {
     //==========================================================================================================
     // 表情视图控件
     private lazy var collectionView : UICollectionView = {
-        let clv = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
-        clv.backgroundColor = UIColor.greenColor()
+        let clv = UICollectionView(frame: CGRectZero, collectionViewLayout: expressionKeyboardLayout())
+        clv.dataSource = self
+        clv.registerClass(SLExpressionKeyboardCell.self, forCellWithReuseIdentifier: "keyboardCell")
         return clv
     }()
     
@@ -89,4 +90,50 @@ class SLExpressionKeyboardViewController: UIViewController {
         print(item.tag)
     }
 
+}
+
+//==========================================================================================================
+// MARK: - UICollectionViewDataSource
+//==========================================================================================================
+extension SLExpressionKeyboardViewController : UICollectionViewDataSource
+{
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 21
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("keyboardCell", forIndexPath: indexPath)
+        cell.backgroundColor = (indexPath.item % 2 == 0) ? UIColor.redColor() : UIColor.purpleColor()
+        return cell
+    }
+}
+
+//==========================================================================================================
+// MARK: - 设置UICollectionView的流水布局
+//==========================================================================================================
+class expressionKeyboardLayout : UICollectionViewFlowLayout
+{
+    override func prepareLayout() {
+        super.prepareLayout()
+        
+        // 设置collectionView的属性
+        let width = UIScreen.mainScreen().bounds.width / 7
+        let heigth = collectionView!.bounds.height / 3
+        itemSize = CGSize(width: width, height: heigth)
+        
+        minimumLineSpacing = 0
+        minimumInteritemSpacing = 0
+        scrollDirection = UICollectionViewScrollDirection.Horizontal
+        
+        collectionView?.bounces = false
+        collectionView?.pagingEnabled = true
+        collectionView?.showsHorizontalScrollIndicator = false
+        collectionView?.showsVerticalScrollIndicator = false
+        
+    }
 }
