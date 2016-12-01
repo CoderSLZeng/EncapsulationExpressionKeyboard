@@ -58,7 +58,7 @@ class SLExpressionKeyboardViewController: UIViewController {
         super.viewDidLoad()
         
         // 1.设置背景颜色
-        view.backgroundColor = UIColor.redColor()
+        view.backgroundColor = UIColor.lightGrayColor()
         
         // 2.添加子控件
         view.addSubview(collectionView)
@@ -89,7 +89,8 @@ class SLExpressionKeyboardViewController: UIViewController {
     // MARK: 处理监听事件
     @objc private func itemClick(item: UIBarButtonItem)
     {
-        print(item.tag)
+        let indexPath = NSIndexPath(forItem: 0, inSection: item.tag)
+        collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: true)
     }
 
 }
@@ -114,9 +115,9 @@ extension SLExpressionKeyboardViewController : UICollectionViewDataSource
     
         // 1.取出cell
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("keyboardCell", forIndexPath: indexPath) as! SLExpressionKeyboardCell
-        cell.backgroundColor = (indexPath.item % 2 == 0) ? UIColor.redColor() : UIColor.purpleColor()
-        
+        cell
         // 2.设置数据
+        cell.backgroundColor = (indexPath.item % 2 == 0) ? UIColor.redColor() : UIColor.purpleColor()
         let package = packages[indexPath.section]
         cell.emoticon = package.emoticons![indexPath.item]
         

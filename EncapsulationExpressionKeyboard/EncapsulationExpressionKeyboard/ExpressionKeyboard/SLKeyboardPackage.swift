@@ -35,6 +35,12 @@ class SLKeyboardPackage: NSObject {
     
     class func loadEmotionPackage() -> [SLKeyboardPackage]
     {
+        var modes = [SLKeyboardPackage]()
+        // 0.手动添加最近组
+        let package = SLKeyboardPackage(id: "")
+        package.appendEmptyEmoticon()
+        modes.append(package)
+        
         // 1.获取emoticons.plist文件路径
         let path = NSBundle.mainBundle().pathForResource("emoticons.plist", ofType: nil, inDirectory: "Emoticons.bundle")!
         // 2.加载emoticons.plist文件
@@ -42,11 +48,11 @@ class SLKeyboardPackage: NSObject {
         let array = dict["packages"] as! [[String : AnyObject]]
         
         // 3.取出所有的表情
-        var modes = [SLKeyboardPackage]()
         for packageDict in array
         {
             let package = SLKeyboardPackage(id: packageDict["id"] as! String)
             package.loadEmoticons()
+            package.appendEmptyEmoticon()
             modes.append(package)
         }
      return modes
@@ -68,12 +74,47 @@ class SLKeyboardPackage: NSObject {
         
         // 3.3遍历数组，取出每一个表情
         var models = [SLKeyboardEmoticon]()
+        // 表情数量的标记
+        var index = 0
         for emoticonDict in array
         {
-            let emotion = SLKeyboardEmoticon(dict: emoticonDict, id: self.id!)
-            models.append(emotion)
+            // 添加表情达到20个，就添加一个删除表情
+            if index == 20
+            {
+                let emoticon = SLKeyboardEmoticon(isRemoveButton: true)
+                models.append(emoticon)
+                index = 0
+                continue
+            }
+            
+            let emoticon = SLKeyboardEmoticon(dict: emoticonDict, id: self.id!)
+            models.append(emoticon)
+            index += 1
+            
         }
         emoticons = models
+    }
+    
+    /**
+     补全一组表情，能够被21整除
+     */
+    private func appendEmptyEmoticon()
+    {
+        if emoticons == nil
+        {
+            emoticons = [SLKeyboardEmoticon]()
+        }
+        
+       let number = emoticons!.count % 21
+        
+        for _ in number..<20
+        {
+            let emoticon = SLKeyboardEmoticon(isRemoveButton: false)
+            emoticons?.append(emoticon)
+        }
+        
+        let emoticon = SLKeyboardEmoticon(isRemoveButton: true)
+        emoticons?.append(emoticon)
     }
 }
 
@@ -112,10 +153,18 @@ class SLKeyboardEmoticon: NSObject {
     /// 转换之后的emoji表情字符串
     var emoticonStr : String?
     
+    /// 记录是否是删除按钮
+    var isRemoveButton: Bool = false
+    
     init(dict: [String : AnyObject], id: String) {
         self.id = id
         super.init()
         setValuesForKeysWithDictionary(dict)
+    }
+    
+    init(isRemoveButton: Bool)
+    {
+        self.isRemoveButton = isRemoveButton
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

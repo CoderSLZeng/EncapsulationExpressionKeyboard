@@ -22,6 +22,14 @@ class SLExpressionKeyboardCell: UICollectionViewCell {
             {
                 iconButton.setImage(UIImage(contentsOfFile: emoticon!.pngPath!), forState: UIControlState.Normal)
             }
+            
+            // 3.设置删除图标
+            if emoticon!.isRemoveButton
+            {
+                iconButton.setImage(UIImage(named: "compose_emotion_delete"), forState: UIControlState.Normal)
+                iconButton.setImage(UIImage(named: "compose_emotion_delete_highlighted"), forState: UIControlState.Highlighted)
+            }
+            
         }
     }
     //==========================================================================================================
