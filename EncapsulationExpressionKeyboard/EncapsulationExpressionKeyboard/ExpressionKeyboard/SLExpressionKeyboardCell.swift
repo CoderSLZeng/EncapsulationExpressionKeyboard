@@ -9,10 +9,29 @@
 import UIKit
 
 class SLExpressionKeyboardCell: UICollectionViewCell {
+    // 当前行对应的表情模型
+    var emoticon : SLKeyboardEmoticon?
+        {
+        didSet {
+            // 1.显示emoji表情
+            iconButton.setTitle(emoticon?.emoticonStr ?? "", forState: UIControlState.Normal)
+            
+            // 2.设置表情图片
+            iconButton.setImage(nil, forState: UIControlState.Normal)
+            if emoticon?.chs != nil
+            {
+                iconButton.setImage(UIImage(contentsOfFile: emoticon!.pngPath!), forState: UIControlState.Normal)
+            }
+        }
+    }
     //==========================================================================================================
     // MARK: - 懒加载
     //==========================================================================================================
-    private lazy var iconButton = UIButton()
+    private lazy var iconButton : UIButton = {
+        let btn = UIButton()
+        btn.titleLabel?.font = UIFont.systemFontOfSize(30)
+        return btn
+    }()
     
     //==========================================================================================================
     // MARK: - 系统初始化函数

@@ -33,7 +33,7 @@ class SLKeyboardPackage: NSObject {
         self.id = id
     }
     
-    class func loadEmotionPackage() -> [SLKeyboardPackage]?
+    class func loadEmotionPackage() -> [SLKeyboardPackage]
     {
         // 1.获取emoticons.plist文件路径
         let path = NSBundle.mainBundle().pathForResource("emoticons.plist", ofType: nil, inDirectory: "Emoticons.bundle")!
@@ -49,7 +49,7 @@ class SLKeyboardPackage: NSObject {
             package.loadEmoticons()
             modes.append(package)
         }
-     return nil
+     return modes
     }
     
     private func loadEmoticons()
@@ -70,7 +70,7 @@ class SLKeyboardPackage: NSObject {
         var models = [SLKeyboardEmoticon]()
         for emoticonDict in array
         {
-            let emotion = SLKeyboardEmoticon(dict: emoticonDict)
+            let emotion = SLKeyboardEmoticon(dict: emoticonDict, id: self.id!)
             models.append(emotion)
         }
         emoticons = models
@@ -78,14 +78,42 @@ class SLKeyboardPackage: NSObject {
 }
 
 class SLKeyboardEmoticon: NSObject {
+    // 当前组对应的文件夹名称
+    var id: String?
+    
     /// 当前表情对应的字符串
     var chs : String?
     /// 当前表情对应的图片
     var png : String?
+    {
+        didSet
+        {
+            let path = NSBundle.mainBundle().pathForResource(id, ofType: nil, inDirectory: "Emoticons.bundle")!
+            pngPath = (path as NSString).stringByAppendingPathComponent(png ?? "")
+        }
+    }
+    /// 当前表情的绝对路径
+    var pngPath : String?
     /// Emoji表情对应的字符串
     var code: String?
+    {
+        didSet
+        {
+            // 1.创建一个扫描器
+            let scanner = NSScanner(string: code ?? "")
+            // 2.从字符串中扫描出对应的16进制数
+            var resutl : UInt32 = 0
+            scanner.scanHexInt(&resutl)
+            // 3.根据扫描出的16进制创建一个字符串
+            emoticonStr = "\(Character(UnicodeScalar(resutl)))"
+        }
+    }
     
-    init(dict: [String : AnyObject]) {
+    /// 转换之后的emoji表情字符串
+    var emoticonStr : String?
+    
+    init(dict: [String : AnyObject], id: String) {
+        self.id = id
         super.init()
         setValuesForKeysWithDictionary(dict)
     }

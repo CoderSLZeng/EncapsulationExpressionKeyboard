@@ -11,6 +11,8 @@ import UIKit
 
 class SLExpressionKeyboardViewController: UIViewController {
 
+    var packages : [SLKeyboardPackage] = SLKeyboardPackage.loadEmotionPackage()
+    
     //==========================================================================================================
     // MARK: - 懒加载
     //==========================================================================================================
@@ -97,18 +99,28 @@ class SLExpressionKeyboardViewController: UIViewController {
 //==========================================================================================================
 extension SLExpressionKeyboardViewController : UICollectionViewDataSource
 {
-    
+    // 告诉系统有多少组
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 1
+        return packages.count
     }
     
+    // 告诉系统每组有多少个
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 21
+        return packages[section].emoticons?.count ?? 0
     }
+    
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("keyboardCell", forIndexPath: indexPath)
+    
+        // 1.取出cell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("keyboardCell", forIndexPath: indexPath) as! SLExpressionKeyboardCell
         cell.backgroundColor = (indexPath.item % 2 == 0) ? UIColor.redColor() : UIColor.purpleColor()
+        
+        // 2.设置数据
+        let package = packages[indexPath.section]
+        cell.emoticon = package.emoticons![indexPath.item]
+        
+        // 3.返回 cell
         return cell
     }
 }
