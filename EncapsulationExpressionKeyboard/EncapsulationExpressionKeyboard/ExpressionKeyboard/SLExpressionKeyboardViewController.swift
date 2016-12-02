@@ -20,6 +20,7 @@ class SLExpressionKeyboardViewController: UIViewController {
     private lazy var collectionView : UICollectionView = {
         let clv = UICollectionView(frame: CGRectZero, collectionViewLayout: expressionKeyboardLayout())
         clv.dataSource = self
+        clv.delegate = self
         clv.registerClass(SLExpressionKeyboardCell.self, forCellWithReuseIdentifier: "keyboardCell")
         return clv
     }()
@@ -123,6 +124,29 @@ extension SLExpressionKeyboardViewController : UICollectionViewDataSource
         
         // 3.返回 cell
         return cell
+    }
+}
+
+//==========================================================================================================
+// MARK: - UICollectionViewDelegate
+//==========================================================================================================
+extension SLExpressionKeyboardViewController : UICollectionViewDelegate
+{
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) 
+    {
+        // 获取表情数据
+        let package = packages[indexPath.section]
+        let emoticon = package.emoticons![indexPath.item]
+        
+        // 每使用一次就+1
+        emoticon.count += 1
+        
+        // 判断是否是删除按钮
+        if !emoticon.isRemoveButton
+        {
+            // 将当前点击的表情添加到最近组中
+            packages[0].addFavoriteEmoticon(emoticon)
+        }
     }
 }
 

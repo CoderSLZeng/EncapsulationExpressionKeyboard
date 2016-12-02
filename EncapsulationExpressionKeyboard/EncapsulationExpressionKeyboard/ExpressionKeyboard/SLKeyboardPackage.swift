@@ -100,11 +100,13 @@ class SLKeyboardPackage: NSObject {
      */
     private func appendEmptyEmoticon()
     {
+        // 1.判断是否是最近组
         if emoticons == nil
         {
             emoticons = [SLKeyboardEmoticon]()
         }
         
+        // 2.补全
        let number = emoticons!.count % 21
         
         for _ in number..<20
@@ -113,8 +115,31 @@ class SLKeyboardPackage: NSObject {
             emoticons?.append(emoticon)
         }
         
+        // 3.补全删除按钮
         let emoticon = SLKeyboardEmoticon(isRemoveButton: true)
         emoticons?.append(emoticon)
+    }
+    
+    func addFavoriteEmoticon(emoticon: SLKeyboardEmoticon)
+    {
+        // 删除最后一个
+        emoticons?.removeLast()
+        
+        // 2.判断当前表情是否已经添加过
+        if !emoticons!.contains(emoticon)
+        {
+            // 2.1.添加当前点击的表情到最近组
+            emoticons?.removeLast()
+            emoticons?.append(emoticon)
+        }
+        
+        // 3.对表情进行排序
+        let array = emoticons?.sort({ (e1, e2) -> Bool in
+            return e1.count > e2.count
+        })
+        emoticons = array
+        // 4.添加一个删除按钮
+        emoticons?.append(SLKeyboardEmoticon(isRemoveButton: true))
     }
 }
 
@@ -155,6 +180,9 @@ class SLKeyboardEmoticon: NSObject {
     
     /// 记录是否是删除按钮
     var isRemoveButton: Bool = false
+    
+    /// 记录当前表情使用次数
+    var count: Int = 0
     
     init(dict: [String : AnyObject], id: String) {
         self.id = id

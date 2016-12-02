@@ -38,6 +38,9 @@ class SLExpressionKeyboardCell: UICollectionViewCell {
     private lazy var iconButton : UIButton = {
         let btn = UIButton()
         btn.titleLabel?.font = UIFont.systemFontOfSize(30)
+        btn.backgroundColor = UIColor.whiteColor()
+        // 禁止按钮交互
+        btn.userInteractionEnabled = false
         return btn
     }()
     
@@ -62,7 +65,6 @@ class SLExpressionKeyboardCell: UICollectionViewCell {
     {
         // 1.设置iconButton属性
         iconButton.frame = CGRectInset(bounds, 4, 4)
-        iconButton.backgroundColor = UIColor.whiteColor()
         // 2.添加iconButton到容器视图
         contentView.addSubview(iconButton)
     }
