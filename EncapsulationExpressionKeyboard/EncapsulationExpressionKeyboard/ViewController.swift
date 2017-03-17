@@ -10,19 +10,14 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    // MARK: - 控件属性
     @IBOutlet weak var customTextField: UITextField!
     
-    //==========================================================================================================
-    // MARK: - 懒加载
-    //==========================================================================================================
+    // MARK: - 懒加载属性
     lazy var expressionKeyboardVC : SLExpressionKeyboardViewController = SLExpressionKeyboardViewController()
     
-    
-    //==========================================================================================================
     // MARK: - 系统初始化函数
-    //==========================================================================================================
-
-    override func viewDidLoad() {
+        override func viewDidLoad() {
         super.viewDidLoad()
         
         // 1.添加子控制器

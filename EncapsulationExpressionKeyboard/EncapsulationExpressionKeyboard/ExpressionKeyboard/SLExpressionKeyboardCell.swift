@@ -9,7 +9,8 @@
 import UIKit
 
 class SLExpressionKeyboardCell: UICollectionViewCell {
-    // 当前行对应的表情模型
+    // MARK: - 提供给外界的属性
+    /// 当前行对应的表情模型
     var emoticon : SLKeyboardEmoticon?
         {
         didSet {
@@ -32,9 +33,9 @@ class SLExpressionKeyboardCell: UICollectionViewCell {
             
         }
     }
-    //==========================================================================================================
-    // MARK: - 懒加载
-    //==========================================================================================================
+      
+    // MARK: - 懒加载属性
+    /// 表情图标按钮
     private lazy var iconButton : UIButton = {
         let btn = UIButton()
         btn.titleLabel?.font = UIFont.systemFontOfSize(30)
@@ -44,9 +45,8 @@ class SLExpressionKeyboardCell: UICollectionViewCell {
         return btn
     }()
     
-    //==========================================================================================================
+      
     // MARK: - 系统初始化函数
-    //==========================================================================================================
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -57,10 +57,8 @@ class SLExpressionKeyboardCell: UICollectionViewCell {
         setupUI()
     }
     
-    //==========================================================================================================
-    // MARK: - 内部控制函数
-    //==========================================================================================================
-    // 设置UI
+      
+    // MARK: - 设置UI界面内容
     private func setupUI()
     {
         // 1.设置iconButton属性

@@ -9,23 +9,25 @@
 
 import UIKit
 
+private let cellIdentifier = "Identifier"
+
 class SLExpressionKeyboardViewController: UIViewController {
 
-    var packages : [SLKeyboardPackage] = SLKeyboardPackage.loadEmotionPackage()
+    private var packages : [SLKeyboardPackage] = SLKeyboardPackage.loadEmotionPackage()
     
-    //==========================================================================================================
-    // MARK: - 懒加载
-    //==========================================================================================================
-    // 表情视图控件
+     
+    // MARK: - 懒加载属性
+    /// 表情视图控件
     private lazy var collectionView : UICollectionView = {
-        let clv = UICollectionView(frame: CGRectZero, collectionViewLayout: expressionKeyboardLayout())
+        let clv = UICollectionView(frame: CGRectZero, collectionViewLayout: SLExpressionKeyboardLayout())
         clv.dataSource = self
         clv.delegate = self
-        clv.registerClass(SLExpressionKeyboardCell.self, forCellWithReuseIdentifier: "keyboardCell")
+        clv.registerClass(SLExpressionKeyboardCell.self, forCellWithReuseIdentifier: cellIdentifier)
+        clv.backgroundColor = UIColor.whiteColor()
         return clv
     }()
     
-    // 工具条视图空间
+    /// 工具条视图控件
     private lazy var toolbar : UIToolbar = {
         let tb = UIToolbar()
         tb.tintColor = UIColor.lightGrayColor()
@@ -52,12 +54,20 @@ class SLExpressionKeyboardViewController: UIViewController {
         return tb
     }()
     
-    //==========================================================================================================
+     
     // MARK: - 系统初始化函数
-    //==========================================================================================================
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUI()
+    }
+    
+}
+
+// MARK: - 设置UI界面内容
+extension SLExpressionKeyboardViewController
+{
+    private func setupUI() {
         // 1.设置背景颜色
         view.backgroundColor = UIColor.lightGrayColor()
         
@@ -82,23 +92,16 @@ class SLExpressionKeyboardViewController: UIViewController {
         view.addConstraints(cons)
     }
     
-    //==========================================================================================================
-    // MARK: - 内部控制方法
-    //==========================================================================================================
-    
-    
     // MARK: 处理监听事件
     @objc private func itemClick(item: UIBarButtonItem)
     {
         let indexPath = NSIndexPath(forItem: 0, inSection: item.tag)
         collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: true)
     }
-
 }
 
-//==========================================================================================================
+ 
 // MARK: - UICollectionViewDataSource
-//==========================================================================================================
 extension SLExpressionKeyboardViewController : UICollectionViewDataSource
 {
     // 告诉系统有多少组
@@ -115,10 +118,9 @@ extension SLExpressionKeyboardViewController : UICollectionViewDataSource
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
     
         // 1.取出cell
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("keyboardCell", forIndexPath: indexPath) as! SLExpressionKeyboardCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellIdentifier, forIndexPath: indexPath) as! SLExpressionKeyboardCell
         cell
         // 2.设置数据
-        cell.backgroundColor = (indexPath.item % 2 == 0) ? UIColor.redColor() : UIColor.purpleColor()
         let package = packages[indexPath.section]
         cell.emoticon = package.emoticons![indexPath.item]
         
@@ -127,9 +129,8 @@ extension SLExpressionKeyboardViewController : UICollectionViewDataSource
     }
 }
 
-//==========================================================================================================
+ 
 // MARK: - UICollectionViewDelegate
-//==========================================================================================================
 extension SLExpressionKeyboardViewController : UICollectionViewDelegate
 {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) 
@@ -150,10 +151,9 @@ extension SLExpressionKeyboardViewController : UICollectionViewDelegate
     }
 }
 
-//==========================================================================================================
-// MARK: - 设置UICollectionView的流水布局
-//==========================================================================================================
-class expressionKeyboardLayout : UICollectionViewFlowLayout
+ 
+// MARK: - 自定义流水布局
+class SLExpressionKeyboardLayout : UICollectionViewFlowLayout
 {
     override func prepareLayout() {
         super.prepareLayout()
